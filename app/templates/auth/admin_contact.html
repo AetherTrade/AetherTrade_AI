@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .contact-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        position: relative;
+        background-color: var(--bg-color);
+        overflow: hidden;
+    }
+
+    #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    .contact-card {
+        position: relative;
+        z-index: 2;
+        background: rgba(16, 16, 28, 0.8);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        max-width: 500px;
+        width: 100%;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 255, 255, 0.1);
+        text-align: center;
+    }
+
+    .contact-header {
+        margin-bottom: 20px;
+    }
+
+    .contact-header h2 {
+        color: var(--primary-color);
+        font-size: clamp(1.5em, 4vw, 2em);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .contact-header p {
+        color: var(--text-color);
+        font-size: clamp(0.9em, 3vw, 1em);
+        opacity: 0.8;
+    }
+
+    .contact-info {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(0, 255, 255, 0.1);
+        display: grid;
+        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    .contact-method {
+        padding: 15px;
+        background: rgba(0, 255, 255, 0.05);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .contact-method:hover {
+        background: rgba(0, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .contact-method i {
+        color: var(--primary-color);
+        font-size: clamp(24px, 5vw, 32px);
+    }
+
+    .contact-method h3 {
+        color: var(--text-color);
+        font-size: clamp(1em, 3vw, 1.2em);
+        margin: 0;
+    }
+
+    .contact-method p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: clamp(0.9em, 2.5vw, 1em);
+        word-break: break-all;
+    }
+
+    .alert {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid var(--primary-color);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: clamp(0.9em, 2.5vw, 1em);
+    }
+
+    .alert i {
+        color: var(--primary-color);
+        font-size: clamp(16px, 4vw, 20px);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: clamp(10px, 3vw, 12px) clamp(20px, 5vw, 25px);
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        font-size: clamp(0.8em, 2.5vw, 0.9em);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .btn i {
+        font-size: clamp(14px, 3.5vw, 16px);
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        color: var(--bg-color);
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-color);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+    }
+
+    @media (max-width: 480px) {
+        .contact-card {
+            padding: 20px;
+        }
+
+        .contact-info {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-height: 700px) {
+        .contact-container {
+            padding: 10px;
+        }
+
+        .contact-card {
+            padding: 15px;
+        }
+
+        .contact-method {
+            padding: 10px;
+        }
+    }
+
+    .btn-whatsapp {
+        background: #25D366;
+        color: white;
+    }
+
+    .btn-whatsapp:hover {
+        background: #128C7E;
+    }
+
+    @media (max-width: 480px) {
+        .action-buttons {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 481px) {
+        .action-buttons {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+
+    .btn-sms {
+        background: #007AFF;
+        color: white;
+    }
+
+    .btn-sms:hover {
+        background: #0056b3;
+    }
+
+    .contact-info {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    @media (max-width: 480px) {
+        .contact-info {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .btn-chat {
+        background: linear-gradient(45deg, #00c6ff, #0072ff);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-chat:hover {
+        background: linear-gradient(45deg, #0072ff, #00c6ff);
+    }
+
+    .btn-chat::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent
+        );
+        transform: rotate(45deg);
+        animation: shimmer 2s linear infinite;
+    }
+
+    @keyframes shimmer {
+        0% {
+            transform: translateX(-100%) rotate(45deg);
+        }
+        100% {
+            transform: translateX(100%) rotate(45deg);
+        }
+    }
+
+    .contact-method i.fa-comments {
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="contact-container">
+    <div id="particles-js"></div>
+    <div class="contact-card">
+        <div class="contact-header">
+            <h2>Contact Admin</h2>
+            <p>For Real Account Approval</p>
+        </div>
+
+        <div class="contact-info">
+            <div class="contact-method">
+                <i class="fas fa-envelope"></i>
+                <h3>Email</h3>
+                <p>aethertradeai@gmail.com</p>
+            </div>
+
+            <div class="contact-method">
+                <i class="fab fa-telegram"></i>
+                <h3>Telegram</h3>
+                <p>@AetherTradeAdmin</p>
+            </div>
+
+            <div class="contact-method">
+                <i class="fab fa-whatsapp"></i>
+                <h3>WhatsApp</h3>
+                <p>+1 234 567 8900</p>
+            </div>
+
+            <div class="contact-method">
+                <i class="fas fa-clock"></i>
+                <h3>Response Time</h3>
+                <p>Usually within 1 Hour</p>
+            </div>
+
+            <div class="contact-method">
+                <i class="fas fa-sms"></i>
+                <h3>Text/SMS</h3>
+                <p>+1 234 567 8900</p>
+            </div>
+
+            <div class="contact-method">
+                <i class="fas fa-comments"></i>
+                <h3>Live Chat</h3>
+                <p>Available 24/7</p>
+            </div>
+        </div>
+
+        <div class="alert">
+            <i class="fas fa-info-circle"></i>
+            Please include your username and account details when contacting admin
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ url_for('auth.setup_api') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Setup
+            </a>
+            <a href="mailto:aethertradeai@gmail.com" class="btn btn-primary">
+                <i class="fas fa-envelope"></i> Email Now
+            </a>
+            <a href="https://wa.me/12345678900" target="_blank" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="sms:+12345678900" class="btn btn-sms">
+                <i class="fas fa-sms"></i> Text/SMS
+            </a>
+            <a href="#" class="btn btn-chat" onclick="openLiveChat()">
+                <i class="fas fa-comments"></i> Live Chat
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        particlesJS.load('particles-js', '/static/particles.json', function() {
+            console.log('particles.js loaded');
+        });
+    });
+
+    function openLiveChat() {
+        // You can replace this with your actual chat implementation
+        alert('Live chat feature coming soon!');
+        // Or redirect to a chat page:
+        // window.location.href = '/chat';
+    }
+</script>
+{% endblock %} 

@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/setup_api.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div id="particles-js"></div>
+    <div class="setup-card glass-panel">
+        <div class="card-header">
+            <h2>Connect Your Account</h2>
+            <p class="subtitle">Link your Deriv API to start trading</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {% if "Real account access requires admin approval" in message %}
+                            {{ message.split('HERE')[0] }}
+                            <a href="{{ url_for('auth.admin_contact') }}" class="pearl-button">
+                                <div class="wrap">
+                                    <p>
+                                        <span>✧</span>
+                                        <span>✦</span>
+                                        Contact Admin
+                                    </p>
+                                </div>
+                            </a>
+                        {% else %}
+                            {{ message }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <script>
+            window.userHasRealAccountApproval = {{ current_user.is_api_approved|tojson }};
+        </script>
+
+        <div class="account-type-selector">
+            <h3><i class="fas fa-university"></i> Select Account Type:</h3>
+            <div class="account-options">
+                <label class="account-option">
+                    <input type="radio" name="account_type" value="demo" checked>
+                    <span class="option-content">
+                        <i class="fas fa-flask"></i>
+                        Demo Account
+                        <small>Practice with virtual funds</small>
+                    </span>
+                </label>
+                <label class="account-option {% if not current_user.is_api_approved %}disabled{% endif %}">
+                    <input type="radio" name="account_type" value="real" 
+                           {% if not current_user.is_api_approved %}disabled{% endif %}>
+                    <span class="option-content">
+                        <i class="fas fa-dollar-sign"></i>
+                        Real Account
+                        <small>{% if current_user.is_api_approved %}
+                            Trade with real money
+                        {% else %}
+                            Requires admin approval
+                        {% endif %}</small>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <div class="admin-contact-section">
+            <button class="button contact-admin-btn" onclick="window.location.href='{{ url_for('auth.admin_contact') }}'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
+                    <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
+                </svg>
+                Contact Admin
+            </button>
+            <p class="contact-note">Need real account access? Contact admin for approval</p>
+        </div>
+
+        <div class="api-instructions">
+            <h3><i class="fas fa-info-circle"></i> Quick Setup:</h3>
+            <ol>
+                <li>
+                    <i class="fas fa-sign-in-alt"></i> 
+                    <span>Log in to <a href="https://app.deriv.com" target="_blank" class="cyber-link">Deriv</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-cog"></i> 
+                    <span>Go to <a href="https://app.deriv.com/account/api-token" target="_blank" class="cyber-link">API Token</a></span>
+                </li>
+                <li>
+                    <i class="fas fa-key"></i>
+                    <div class="token-instructions">
+                        <span>Create token with:</span>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Read</li>
+                            <li><i class="fas fa-check"></i> Trade</li>
+                            <li><i class="fas fa-check"></i> Payments</li>
+                            <li><i class="fas fa-check"></i> Trading Info</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-paste"></i> 
+                    <span>Copy & paste below</span>
+                </li>
+            </ol>
+            <div class="help-links">
+                <a href="https://deriv.com/help-centre" target="_blank" class="cyber-link">
+                    <i class="fas fa-question-circle"></i> Need help?
+                </a>
+                <a href="https://api.deriv.com" target="_blank" class="cyber-link">
+                    <i class="fas fa-book"></i> API Documentation
+                </a>
+            </div>
+        </div>
+
+        <form method="POST" class="api-setup-form" data-admin-contact-url="{{ url_for('auth.admin_contact') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-key"></i>
+                    {{ form.deriv_api_key(class="form-control", type="password", required=true, placeholder="Enter your API Key") }}
+                    <i class="fas fa-eye-slash password-toggle"></i>
+                </div>
+                <div class="account-status">
+                    <span class="status-indicator"></span>
+                    <span class="status-text">Validating account...</span>
+                </div>
+                {% if form.deriv_api_key.errors %}
+                    {% for error in form.deriv_api_key.errors %}
+                        <div class="error-message"><i class="fas fa-exclamation-circle"></i>{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-actions">
+                {{ form.submit(class="btn-primary glow-effect") }}
+                <a href="{{ url_for('dashboard.user') }}" class="skip-link cyber-link">
+                    <i class="fas fa-forward"></i> Skip for now
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="{{ url_for('static', filename='js/setup_api.js') }}"></script>
+{% endblock %} 

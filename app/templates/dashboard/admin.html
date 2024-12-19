@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="sidebar">
+        <div class="admin-info">
+            <div class="admin-avatar">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="admin-title">Admin Panel</div>
+        </div>
+        
+        <div class="sidebar-buttons">
+            <div class="button-group">
+                <a href="{{ url_for('admin.admin_dashboard') }}" class="nav-item {% if request.endpoint == 'admin.admin_dashboard' %}active{% endif %}">
+                    <i class="fas fa-microchip"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('admin.manage_users') }}" class="nav-item {% if request.endpoint == 'admin.manage_users' %}active{% endif %}">
+                    <i class="fas fa-robot"></i>
+                    <span>Users</span>
+                </a>
+            </div>
+
+            <div class="button-group">
+                <a href="{{ url_for('admin.system_status') }}" class="nav-item {% if request.endpoint == 'admin.system_status' %}active{% endif %}">
+                    <i class="fas fa-network-wired"></i>
+                    <span>Network</span>
+                </a>
+                <a href="{{ url_for('admin.activity_logs') }}" class="nav-item {% if request.endpoint == 'admin.activity_logs' %}active{% endif %}">
+                    <i class="fas fa-code"></i>
+                    <span>System</span>
+                </a>
+            </div>
+
+            <div class="button-group">
+                <a href="#" class="nav-item" data-tab="analytics">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#ai-control" class="nav-item" data-tab="ai-control">
+                    <i class="fas fa-brain"></i>
+                    <span>AI Control</span>
+                </a>
+            </div>
+
+            <div class="button-group">
+                <a href="#" class="nav-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Security</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="tab-content" id="overview">
+            <h2>System Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <p class="stat-value">{{ users|length }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Trades</h3>
+                    <p class="stat-value">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>System Status</h3>
+                    <p class="stat-value status-ok">OK</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content hidden" id="users">
+            <h2>User Management</h2>
+            <div class="users-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>API Status</th>
+                            <th>Last Active</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ 'Connected' if user.deriv_api_key else 'Not Connected' }}</td>
+                            <td>N/A</td>
+                            <td>
+                                <button class="action-btn edit" data-userid="{{ user.id }}">Edit</button>
+                                <button class="action-btn delete" data-userid="{{ user.id }}">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-content hidden" id="system">
+            <h2>System Status</h2>
+            <div class="system-grid">
+                <div class="system-card">
+                    <h3>Server Status</h3>
+                    <div class="status-indicator ok"></div>
+                    <p>Running normally</p>
+                </div>
+                <div class="system-card">
+                    <h3>API Connection</h3>
+                    <div class="status-indicator ok"></div>
+                    <p>Connected</p>
+                </div>
+                <div class="system-card">
+                    <h3>Database</h3>
+                    <div class="status-indicator ok"></div>
+                    <p>Healthy</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content hidden" id="logs">
+            <h2>Activity Logs</h2>
+            <div class="logs-container">
+                <div class="log-filters">
+                    <select id="logLevel">
+                        <option value="all">All Levels</option>
+                        <option value="error">Errors</option>
+                        <option value="warning">Warnings</option>
+                        <option value="info">Info</option>
+                    </select>
+                    <input type="date" id="logDate">
+                </div>
+                <div class="log-entries">
+                    <p class="log-entry info">System started successfully</p>
+                    <p class="log-entry warning">API rate limit at 80%</p>
+                    <p class="log-entry error">Failed login attempt</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content hidden" id="chat">
+            <h2>User Support Chat</h2>
+            <div class="admin-chat-container">
+                <!-- User List -->
+                <div class="chat-users-list">
+                    <div class="chat-users-header">
+                        <h3><i class="fas fa-users"></i> Active Chats</h3>
+                        <div class="chat-search">
+                            <input type="text" id="user-search" placeholder="Search users...">
+                        </div>
+                    </div>
+                    <div class="chat-users" id="chat-users">
+                        <!-- Users will be added dynamically -->
+                    </div>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="chat-area">
+                    <div class="chat-header">
+                        <div class="chat-user-info">
+                            <span id="selected-user">Select a user to start chatting</span>
+                            <span id="user-status" class="status-badge"></span>
+                        </div>
+                        <div class="chat-actions">
+                            <button class="cyber-button" id="view-profile">
+                                <i class="fas fa-user"></i> View Profile
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="admin-chat-messages">
+                        <!-- Messages will be added dynamically -->
+                        <div class="chat-placeholder">
+                            <i class="fas fa-comments"></i>
+                            <p>Select a conversation to start messaging</p>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-area">
+                        <form id="admin-chat-form" class="cyber-form">
+                            <div class="input-group">
+                                <textarea 
+                                    id="admin-chat-input" 
+                                    placeholder="Type your message..." 
+                                    rows="2"
+                                    maxlength="500"
+                                    disabled
+                                ></textarea>
+                                <button type="submit" class="cyber-button send-btn" disabled>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- User Details Sidebar -->
+                <div class="user-details-sidebar">
+                    <div class="user-details-header">
+                        <h3><i class="fas fa-info-circle"></i> User Details</h3>
+                    </div>
+                    <div class="user-details-content">
+                        <div class="detail-item">
+                            <span class="label">Email:</span>
+                            <span id="detail-email">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Account Type:</span>
+                            <span id="detail-account-type">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">API Status:</span>
+                            <span id="detail-api-status">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Join Date:</span>
+                            <span id="detail-join-date">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content hidden" id="ai-control">
+            <h2><i class="fas fa-brain"></i> System Control</h2>
+            
+            <div class="ai-control-grid">
+                <!-- GitHub Integration -->
+                <div class="control-card cyber-card">
+                    <div class="card-header">
+                        <h3>GitHub Integration</h3>
+                        <div class="status-badge" id="github-status">CONNECTED</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="github-actions">
+                            <button class="cyber-button" id="sync-github">
+                                <i class="fab fa-github"></i> Sync with GitHub
+                            </button>
+                            <button class="cyber-button" id="view-commits">
+                                <i class="fas fa-code-branch"></i> View Commits
+                            </button>
+                            <button class="cyber-button" id="configure-repo">
+                                <i class="fas fa-cog"></i> Configure Repository
+                            </button>
+                        </div>
+                        <div class="github-info">
+                            <div class="info-item">
+                                <span class="label">Repository:</span>
+                                <span id="repo-name">aethertrade-backups</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Last Sync:</span>
+                                <span id="last-sync-time">Never</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Branch:</span>
+                                <span id="current-branch">main</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Status:</span>
+                                <span id="sync-status">Up to date</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backup Management -->
+                <div class="control-card cyber-card">
+                    <div class="card-header">
+                        <h3>Backup Management</h3>
+                        <div class="status-badge" id="backup-status">READY</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="backup-actions">
+                            <button class="cyber-button" id="trigger-backup">
+                                <i class="fas fa-cloud-upload-alt"></i> Create Backup
+                            </button>
+                            <button class="cyber-button" id="restore-backup">
+                                <i class="fas fa-cloud-download-alt"></i> Restore Backup
+                            </button>
+                            <button class="cyber-button" id="schedule-backup">
+                                <i class="fas fa-clock"></i> Schedule Backup
+                            </button>
+                        </div>
+                        <div class="backup-info">
+                            <div class="info-item">
+                                <span class="label">Last Backup:</span>
+                                <span id="last-backup-time">Never</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Backup Size:</span>
+                                <span id="backup-size">0 MB</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Available Backups:</span>
+                                <span id="backup-count">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backup Logs -->
+                <div class="control-card cyber-card">
+                    <div class="card-header">
+                        <h3>Backup Logs</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="log-viewer" id="backup-logs">
+                            <!-- Backup logs will be populated dynamically -->
+                        </div>
+                        <div class="log-actions">
+                            <button class="cyber-button" id="clear-backup-logs">
+                                <i class="fas fa-trash"></i> Clear Logs
+                            </button>
+                            <button class="cyber-button" id="export-backup-logs">
+                                <i class="fas fa-file-export"></i> Export Logs
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_dashboard.js') }}"></script>
+{% endblock %} 

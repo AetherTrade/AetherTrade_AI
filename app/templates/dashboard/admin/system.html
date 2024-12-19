@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/system.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="admin-info">
+            <div class="admin-avatar">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="admin-title">Admin Panel</div>
+        </div>
+        
+        <div class="sidebar-buttons">
+            <div class="button-group">
+                <a href="{{ url_for('admin.admin_dashboard') }}" class="nav-item">
+                    <i class="fas fa-microchip"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('admin.manage_users') }}" class="nav-item">
+                    <i class="fas fa-robot"></i>
+                    <span>Users</span>
+                </a>
+            </div>
+
+            <div class="button-group">
+                <a href="{{ url_for('admin.system_status') }}" class="nav-item active">
+                    <i class="fas fa-network-wired"></i>
+                    <span>Network</span>
+                </a>
+                <a href="{{ url_for('admin.activity_logs') }}" class="nav-item">
+                    <i class="fas fa-code"></i>
+                    <span>System</span>
+                </a>
+            </div>
+
+            <div class="button-group">
+                <a href="#" class="nav-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-brain"></i>
+                    <span>AI Control</span>
+                </a>
+            </div>
+
+            <div class="button-group">
+                <a href="#" class="nav-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Security</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-header">
+            <h2><i class="fas fa-server"></i> System Status</h2>
+            <button class="refresh-btn" id="refreshStatus">
+                <i class="fas fa-sync-alt"></i> Refresh Status
+            </button>
+        </div>
+
+        <div class="system-grid">
+            <!-- Server Status -->
+            <div class="status-card" id="serverStatus">
+                <div class="card-header">
+                    <i class="fas fa-server"></i>
+                    <h3>Server Status</h3>
+                </div>
+                <div class="status-indicator ok">
+                    <span class="status-text">Operational</span>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <span>CPU Usage</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 45%"></div>
+                        </div>
+                        <span class="value">45%</span>
+                    </div>
+                    <div class="metric">
+                        <span>Memory Usage</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 60%"></div>
+                        </div>
+                        <span class="value">60%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Database Status -->
+            <div class="status-card" id="dbStatus">
+                <div class="card-header">
+                    <i class="fas fa-database"></i>
+                    <h3>Database Status</h3>
+                </div>
+                <div class="status-indicator ok">
+                    <span class="status-text">Connected</span>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <span>Query Load</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 30%"></div>
+                        </div>
+                        <span class="value">30%</span>
+                    </div>
+                    <div class="metric">
+                        <span>Storage</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 25%"></div>
+                        </div>
+                        <span class="value">25%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Status -->
+            <div class="status-card" id="apiStatus">
+                <div class="card-header">
+                    <i class="fas fa-cloud"></i>
+                    <h3>API Status</h3>
+                </div>
+                <div class="status-indicator warning">
+                    <span class="status-text">High Load</span>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <span>Response Time</span>
+                        <div class="progress-bar">
+                            <div class="progress warning" style="width: 75%"></div>
+                        </div>
+                        <span class="value">75ms</span>
+                    </div>
+                    <div class="metric">
+                        <span>Success Rate</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 95%"></div>
+                        </div>
+                        <span class="value">95%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Status -->
+            <div class="status-card" id="securityStatus">
+                <div class="card-header">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Security Status</h3>
+                </div>
+                <div class="status-indicator ok">
+                    <span class="status-text">Secure</span>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <span>Threats Blocked</span>
+                        <div class="metric-value">1,234</div>
+                    </div>
+                    <div class="metric">
+                        <span>Last Scan</span>
+                        <div class="metric-value">2 min ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Logs -->
+        <div class="system-logs">
+            <h3><i class="fas fa-terminal"></i> System Logs</h3>
+            <div class="log-container" id="systemLogs">
+                <!-- Logs will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin/system.js') }}"></script>
+{% endblock %} 

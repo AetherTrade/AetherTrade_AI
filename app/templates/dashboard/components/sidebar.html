@@ -1,0 +1,41 @@
+    <!-- Sidebar Navigation - now positioned below navbar -->
+<div class="sidebar glass-panel" id="mainSidebar">
+    <div class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <a href="{{ url_for('dashboard.user') }}" class="nav-item {% if request.endpoint == 'dashboard.user' %}active{% endif %}">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="{{ url_for('dashboard.history') }}" class="nav-item {% if request.endpoint == 'dashboard.history' %}active{% endif %}">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+        <a href="{{ url_for('auth.setup_api') }}" class="nav-item {% if request.endpoint == 'auth.setup_api' %}active{% endif %}">
+            <i class="fas fa-key"></i>
+            <span>API Settings</span>
+        </a>
+        <a href="{{ url_for('auth.logout') }}" class="nav-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="profile-info">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="user-details">
+                <h3>{{ current_user.username }}</h3>
+                <p class="user-role">Pro Trader</p>
+            </div>
+        </div>
+        <a href="{{ url_for('auth.logout') }}" class="nav-item logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</div> 

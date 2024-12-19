@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="index-container">
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <div class="hero-logo">
+                {% include 'components/logo.svg' %}
+            </div>
+            <h1>AetherTrade AI</h1>
+            <p class="subtitle">Intelligent Trading Assistant for Deriv Markets</p>
+            <p class="hero-description">Advanced strategies, risk management, and real-time analytics for Rise/Fall markets</p>
+            <div class="hero-buttons">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('dashboard.user') }}" class="btn btn-primary glow-effect">
+                        <i class="fas fa-chart-line"></i> Trading Dashboard
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary glow-effect">
+                        <i class="fas fa-rocket"></i> Get Started Free
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features glass-panel">
+        <h2 data-aos="fade-up">Advanced Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card glass-effect" data-aos="fade-up">
+                <i class="fas fa-robot"></i>
+                <h3>Smart Strategies</h3>
+                <p>Multiple AI-powered strategies optimized for Rise/Fall markets</p>
+            </div>
+            <div class="feature-card glass-effect" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-chart-line"></i>
+                <h3>Demo Trading</h3>
+                <p>Practice risk-free with virtual funds before going live</p>
+            </div>
+            <div class="feature-card glass-effect" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Risk Management</h3>
+                <p>Built-in protection features to safeguard your investments</p>
+            </div>
+            <div class="feature-card glass-effect" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-tachometer-alt"></i>
+                <h3>User Dashboard</h3>
+                <p>Intuitive interface with real-time analytics and controls</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works glass-panel">
+        <h2 data-aos="fade-up">How It Works</h2>
+        <div class="steps">
+            <div class="step glass-effect" data-aos="fade-right">
+                <div class="step-number">1</div>
+                <i class="fas fa-user-plus"></i>
+                <h3>Create Account</h3>
+                <p>Quick registration with email verification</p>
+            </div>
+            <div class="step glass-effect" data-aos="fade-right" data-aos-delay="100">
+                <div class="step-number">2</div>
+                <i class="fas fa-key"></i>
+                <h3>Add API Key</h3>
+                <p>Connect your Deriv account securely</p>
+            </div>
+            <div class="step glass-effect" data-aos="fade-right" data-aos-delay="200">
+                <div class="step-number">3</div>
+                <i class="fas fa-robot"></i>
+                <h3>Configure Bot</h3>
+                <p>Set your trading preferences and limits</p>
+            </div>
+            <div class="step glass-effect" data-aos="fade-right" data-aos-delay="300">
+                <div class="step-number">4</div>
+                <i class="fas fa-play-circle"></i>
+                <h3>Start Trading</h3>
+                <p>Begin with demo or live trading</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials glass-panel">
+        <h2 data-aos="fade-up">User Experiences</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card glass-effect" data-aos="fade-up">
+                <div class="testimonial-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <p class="testimonial-text">"The demo account helped me understand the strategies before going live. Great risk management features!"</p>
+                <p class="testimonial-author">Alex K.</p>
+                <p class="testimonial-title">Demo Trader</p>
+            </div>
+            <!-- Add more testimonials -->
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta glass-panel" data-aos="zoom-in">
+        <div class="cta-content">
+            <h2>Ready to Start Trading?</h2>
+            <p>Join AetherTrade AI today and experience the future of automated trading</p>
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary glow-effect">
+                    <i class="fas fa-rocket"></i> Get Started Now
+                </a>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %} 

@@ -1,0 +1,15 @@
+{% extends "dashboard/base.html" %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/backup_manager.css') }}">
+{% endblock %}
+
+{% block content %}
+<div id="admin-content"></div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/admin/backup_manager.js') }}"></script>
+{% endblock %} 

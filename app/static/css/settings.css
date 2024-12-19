@@ -1,0 +1,126 @@
+.settings-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.api-status-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.status-indicator {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.status-indicator.connected {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-indicator.disconnected {
+    background-color: #dc3545;
+    color: white;
+}
+
+.api-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.show-hide-btn {
+    position: absolute;
+    right: 10px;
+    top: 35px;
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.api-instructions {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.api-instructions ol {
+    margin-left: 20px;
+}
+
+.save-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+.save-btn:hover {
+    background-color: #0056b3;
+}
+
+.test-connection-section {
+    margin-top: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.test-btn {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.test-result {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.test-result.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.test-result.error {
+    background-color: #f8d7da;
+    color: #721c24;
+} 

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div id="particles-js"></div>
+<div class="dashboard-container">
+    <div class="main-content">
+        <div class="profile-grid">
+            <!-- Trading Status Card (Conditional) -->
+            <div class="dashboard-card cyber-card" id="trading-status-card">
+                <!-- Demo Account Version -->
+                <div class="card-content demo-status" id="demo-status-content" style="display: none;">
+                    <div class="card-icon">
+                        <i class="fas fa-info-circle pulse warning-pulse"></i>
+                    </div>
+                    <div class="status-content">
+                        <h3>Demo Account Status</h3>
+                        <div class="status-message">
+                            <p><i class="fas fa-exclamation-circle"></i> Currently Using Demo Account</p>
+                            <div class="upgrade-info">
+                                <p>Contact Admin for Real Account Trading:</p>
+                                <ul>
+                                    <li><i class="fas fa-envelope"></i> Email: aethertradeai@gmail.com</li>
+                                    <li><i class="fab fa-telegram"></i> Telegram: @AetherTradeAdmin</li>
+                                    <li><i class="fab fa-whatsapp"></i> WhatsApp: +254726061092</li>
+                                </ul>
+                                <div class="action-buttons">
+                                    <button class="cyber-button contact-admin-btn" onclick="window.profileManager.contactAdmin()">
+                                        <i class="fas fa-headset"></i> Contact Admin Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real Account Version -->
+                <div class="card-content real-status" id="real-status-content" style="display: none;">
+                    <div class="card-icon">
+                        <i class="fas fa-check-circle pulse success-pulse"></i>
+                    </div>
+                    <div class="status-content">
+                        <h3>Real Account Status <span class="emoji">🎉</span></h3>
+                        <div class="status-message success">
+                            <p><i class="fas fa-smile-beam"></i> Congratulations! Your account is approved for Real Trading!</p>
+                            <div class="real-account-info">
+                                <p>You have full access to:</p>
+                                <ul>
+                                    <li><i class="fas fa-check"></i> Real account trading</li>
+                                    <li><i class="fas fa-check"></i> All trading features</li>
+                                    <li><i class="fas fa-check"></i> Premium support</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-border"></div>
+            </div>
+
+            <!-- User Info Card -->
+            <div class="dashboard-card cyber-card">
+                <div class="card-icon">
+                    <i class="fas fa-id-card pulse"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Account Information</h3>
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <span id="user-email">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span id="join-date">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span id="api-status">API Status: Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-border"></div>
+            </div>
+
+            <!-- Password Change Card -->
+            <div class="dashboard-card cyber-card">
+                <div class="card-icon">
+                    <i class="fas fa-key float"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Change Password</h3>
+                    <form id="password-change-form" class="cyber-form">
+                        <div class="form-group">
+                            <input type="password" id="current-password" required>
+                            <label for="current-password">Current Password</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="new-password" required>
+                            <label for="new-password">New Password</label>
+                            <div class="password-strength"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="confirm-password" required>
+                            <label for="confirm-password">Confirm New Password</label>
+                        </div>
+                        <button type="submit" class="cyber-button">
+                            <i class="fas fa-save"></i> Update Password
+                        </button>
+                    </form>
+                </div>
+                <div class="card-border"></div>
+            </div>
+
+            <!-- API Management Card -->
+            <div class="dashboard-card cyber-card">
+                <div class="card-icon">
+                    <i class="fas fa-plug glow"></i>
+                </div>
+                <div class="card-content">
+                    <h3>API Management</h3>
+                    <div class="api-status-wrapper">
+                        <div class="api-indicator" id="api-indicator"></div>
+                        <div class="api-details">
+                            <p>Last Verified: <span id="api-last-verified">Loading...</span></p>
+                            <p>Status: <span id="api-approval-status">Loading...</span></p>
+                        </div>
+                        <a href="{{ url_for('auth.setup_api') }}" class="cyber-button">
+                            <i class="fas fa-cog"></i> Manage API
+                        </a>
+                    </div>
+                </div>
+                <div class="card-border"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+    particlesJS.load('particles-js', "{{ url_for('static', filename='particles.json') }}");
+</script>
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}

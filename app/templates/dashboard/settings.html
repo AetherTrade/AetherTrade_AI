@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div id="particles-js"></div>
+    
+    <!-- Include Sidebar -->
+    {% include 'dashboard/components/sidebar.html' %}
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="dashboard-content glass-panel">
+            <div class="dashboard-header">
+                <h2>Settings</h2>
+                <p class="subtitle">Configure your account and trading preferences</p>
+            </div>
+            
+            <!-- Settings content will go here -->
+            <div class="glass-panel-inner">
+                <h3>Account Settings</h3>
+                <p>Settings interface coming soon...</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %} 

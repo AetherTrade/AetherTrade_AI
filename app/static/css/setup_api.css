@@ -1,0 +1,670 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    position: relative;
+    background-color: var(--bg-color);
+    overflow: hidden;
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.setup-card {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(145deg, rgba(16, 16, 28, 0.9), rgba(20, 20, 35, 0.8));
+    padding: 25px;
+    border-radius: 24px;
+    box-shadow: 
+        0 4px 24px -1px rgba(0, 0, 0, 0.2),
+        0 0 16px rgba(0, 255, 255, 0.1);
+    max-width: 520px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: scroll;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) rgba(0, 0, 0, 0.2);
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.card-header h2 {
+    color: var(--primary-color);
+    font-size: 1.8em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #fff, var(--primary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.api-instructions {
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    max-height: 25vh;
+    overflow-y: auto;
+}
+
+.api-instructions::-webkit-scrollbar {
+    width: 5px;
+}
+
+.api-instructions::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.api-instructions::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+.api-instructions h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.api-instructions ol {
+    margin-left: 20px;
+    color: var(--text-color);
+}
+
+.api-instructions li {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.9em;
+}
+
+.api-instructions li i {
+    color: var(--primary-color);
+    margin-top: 4px;
+}
+
+.api-instructions small {
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85em;
+    margin-top: 4px;
+}
+
+.token-instructions {
+    margin-left: 10px;
+}
+
+.token-instructions ul {
+    list-style: none;
+    margin: 10px 0;
+    padding-left: 10px;
+}
+
+.token-instructions ul li {
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.token-instructions ul li i {
+    color: #00ff00;
+}
+
+.token-note {
+    display: block;
+    color: var(--primary-color);
+    font-style: italic;
+    margin-top: 8px;
+}
+
+.help-links {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.help-links a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.help-links a:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.cyber-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.cyber-link:hover {
+    text-shadow: 0 0 8px var(--primary-color);
+}
+
+.cyber-link:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.cyber-link:hover:after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.input-icon {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.input-icon i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+    z-index: 1;
+}
+
+.input-icon i:first-child {
+    left: 12px;
+}
+
+.input-icon .password-toggle {
+    right: 12px;
+    cursor: pointer;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 40px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.1);
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    height: 40px;
+    background: var(--primary-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.glow-effect:hover {
+    box-shadow: 0 0 20px var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.skip-link {
+    color: var(--text-color);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.skip-link:hover {
+    color: var(--primary-color);
+    opacity: 1;
+}
+
+.error-message {
+    color: #ff4444;
+    font-size: 12px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.account-type-selector {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.account-type-selector h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.account-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 12px;
+}
+
+.account-option {
+    flex: 1;
+    cursor: pointer;
+}
+
+.account-option input[type="radio"] {
+    display: none;
+}
+
+.option-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.option-content i {
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.option-content small {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85em;
+    margin-top: 4px;
+}
+
+.account-option input[type="radio"]:checked + .option-content {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.account-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    font-size: 0.9em;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #666;
+}
+
+.status-indicator.validating {
+    background: #ffd700;
+    animation: pulse 1s infinite;
+}
+
+.status-indicator.valid {
+    background: #00ff00;
+}
+
+.status-indicator.invalid {
+    background: #ff4444;
+}
+
+.status-text {
+    font-size: 0.9em;
+    color: var(--text-color);
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.account-option.highlight-demo .option-content {
+    background: rgba(255, 165, 0, 0.1);
+    border-color: #ffa500;
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
+    animation: pulse-orange 2s infinite;
+}
+
+.account-option.highlight-real .option-content {
+    background: rgba(0, 255, 0, 0.1);
+    border-color: #00ff00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    animation: pulse-green 2s infinite;
+}
+
+.account-option.disabled .option-content {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(1);
+}
+
+.account-option.disabled input[type="radio"] {
+    pointer-events: none;
+}
+
+@keyframes pulse-orange {
+    0% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(255, 165, 0, 0.5); }
+    100% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.3); }
+}
+
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(0, 255, 0, 0.5); }
+    100% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.3); }
+}
+
+.account-option.highlight-demo input[type="radio"]:checked + .option-content {
+    background: rgba(255, 165, 0, 0.2);
+    border-color: #ffa500;
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
+}
+
+.account-option.highlight-real input[type="radio"]:checked + .option-content {
+    background: rgba(0, 255, 0, 0.2);
+    border-color: #00ff00;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+}
+
+@media (max-height: 800px) {
+    .setup-card {
+        padding: 20px;
+        max-height: 90vh;
+    }
+
+    .card-header {
+        margin-bottom: 15px;
+    }
+
+    .api-instructions {
+        max-height: 20vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .account-options {
+        grid-template-columns: 1fr;
+    }
+
+    .setup-card {
+        padding: 15px;
+    }
+}
+
+/* Add styles for disabled radio buttons */
+.account-option input[type="radio"]:disabled + .option-content {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Update the highlight animations to be more prominent */
+.account-option.highlight-demo .option-content,
+.account-option.highlight-real .option-content {
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+/* Add a transition effect for the radio selection */
+.option-content {
+    transition: all 0.3s ease-in-out;
+}
+
+.alert-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.alert-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.alert-link:hover {
+    background: rgba(0, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.alert-link i {
+    font-size: 14px;
+}
+
+/* Add the pearl button styles */
+.pearl-button {
+    --white: #ffe7ff;
+    --bg: #080808;
+    --radius: 100px;
+    outline: none;
+    cursor: pointer;
+    border: 0;
+    position: relative;
+    border-radius: var(--radius);
+    background-color: var(--bg);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    box-shadow:
+        inset 0 0.3rem 0.9rem rgba(255, 255, 255, 0.3),
+        inset 0 -0.1rem 0.3rem rgba(0, 0, 0, 0.7),
+        inset 0 -0.4rem 0.9rem rgba(255, 255, 255, 0.5),
+        0 3rem 3rem rgba(0, 0, 0, 0.3),
+        0 1rem 1rem -0.6rem rgba(0, 0, 0, 0.8);
+}
+
+.pearl-button .wrap {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 12px 24px;
+    border-radius: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Rest of the pearl button styles... */
+
+/* Add these styles */
+.alert.persistent-alert {
+    position: relative;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--primary-color);
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.persistent-alert .pearl-button {
+    align-self: flex-end;
+    margin-top: 5px;
+}
+
+/* Update existing pearl button styles */
+.pearl-button {
+    /* ... existing styles ... */
+    margin-top: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pearl-button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        inset 0 0.3rem 0.5rem rgba(255, 255, 255, 0.4),
+        inset 0 -0.1rem 0.3rem rgba(0, 0, 0, 0.7),
+        inset 0 -0.4rem 0.9rem rgba(255, 255, 255, 0.7),
+        0 3rem 3rem rgba(0, 0, 0, 0.3),
+        0 1rem 1rem -0.6rem rgba(0, 0, 0, 0.8);
+}
+
+/* Add these new styles */
+.admin-contact-section {
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.contact-note {
+    color: var(--text-color);
+    font-size: 0.9em;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+/* Your provided button styles */
+.button {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    padding: 1em 1.5em;
+    cursor: pointer;
+    gap: 0.6rem;
+    font-weight: 600;
+    border-radius: 30px;
+    text-shadow: 2px 2px 3px rgb(136 0 136 / 50%);
+    background: linear-gradient(45deg, #880088, #aa2068, #cc3f47, #de6f3d, #f09f33);
+    background-size: 200% auto;
+    color: #fff;
+    border: none;
+    box-shadow: 0 10px 20px -10px rgba(0,0,0,.5);
+    transition: all 0.3s ease;
+    margin: 0 auto;
+}
+
+.button:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px -10px rgba(0,0,0,.6);
+}
+
+.button:hover svg {
+    fill: #fff;
+}
+
+.button svg {
+    width: 23px;
+    fill: #f09f33;
+    transition: .3s ease;
+}
+
+/* Update scrollbar styles for better visibility */
+.setup-card::-webkit-scrollbar {
+    width: 6px;  /* Slightly wider for better usability */
+}
+
+.setup-card::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    margin: 4px 0;  /* Add some space top and bottom */
+}
+
+.setup-card::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    &:hover {
+        background: var(--primary-color-light);
+    }
+}
+
+/* Ensure content is properly spaced */
+.setup-card > *:last-child {
+    margin-bottom: 20px;  /* Add space at bottom */
+}

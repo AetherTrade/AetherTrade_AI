@@ -1,0 +1,488 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item" data-view="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item active" data-view="bot">
+                <i class="fas fa-robot"></i>
+                <span>AETHER BOT</span>
+            </a>
+            <a href="/dashboard/profile" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+            <a href="#" class="nav-item" data-view="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="/auth/setup-api" class="nav-item">
+                <i class="fas fa-key"></i>
+                <span>API Settings</span>
+            </a>
+            <a href="#" class="nav-item" data-view="chat">
+                <i class="fas fa-comments"></i>
+                <span>Chat with Admin</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard View -->
+        <div class="view-content" id="dashboard-view">
+            <div class="account-info">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card card">
+                        <div class="card-icon">
+                            <i class="fas fa-user-shield pulse"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Account Type</h3>
+                            <div id="account-type" class="value">Loading...</div>
+                        </div>
+                        <div class="card-border"></div>
+                    </div>
+
+                    <div class="dashboard-card card" id="account-status-card">
+                        <div class="card-icon">
+                            <i class="fas fa-user-shield" id="account-status-icon"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Account Status</h3>
+                            <div id="account-status-content" class="status-content">
+                                <!-- Content will be dynamically updated by JS -->
+                            </div>
+                            <div class="status-actions">
+                                <a href="{{ url_for('auth.admin_contact') }}" class="contact-admin-btn">
+                                    <i class="fas fa-headset"></i>
+                                    Contact Admin
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-border"></div>
+                    </div>
+
+                    <div class="dashboard-card card">
+                        <div class="card-icon">
+                            <i class="fas fa-wallet glow"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Account Balance</h3>
+                            <div id="account-balance" class="value">Loading...</div>
+                        </div>
+                        <div class="card-border"></div>
+                    </div>
+
+                    <!-- Profit/Loss Card -->
+                    <div class="dashboard-card card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line pulse"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Profit/Loss</h3>
+                            <div class="profit-loss-info">
+                                <div class="info-item">
+                                    <span class="label">Total P/L:</span>
+                                    <span id="total-profit-loss" class="value">$0.00</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="label">Today's P/L:</span>
+                                    <span id="today-profit-loss" class="value">$0.00</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="label">Win Rate:</span>
+                                    <span id="win-rate" class="value">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-border"></div>
+                    </div>
+
+                    <!-- Deriv Account Info Card -->
+                    <div class="dashboard-card card">
+                        <div class="card-icon">
+                            <i class="fas fa-globe-americas pulse"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Deriv Account Info</h3>
+                            <div class="deriv-info">
+                                <div class="info-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span id="deriv-email">Loading...</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-flag"></i>
+                                    <span id="deriv-country">Loading...</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-building"></i>
+                                    <span id="deriv-landing-company">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-border"></div>
+                    </div>
+
+                    <div class="dashboard-card card">
+                        <div class="card-icon">
+                            <i class="fas fa-id-badge pulse"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Full Name</h3>
+                            <div id="user-fullname" class="value">Jesse M. Kariuki</div>
+                        </div>
+                        <div class="card-border"></div>
+                    </div>
+
+                    <!-- Capital Recommendation Card -->
+                    <div class="dashboard-card card recommendation-card">
+                        <div class="card-content">
+                            <h3>Trading Recommendations</h3>
+                            <div class="recommendation-section">
+                                <div class="stake-recommendation">
+                                    <div class="recommended-stake">$0.35</div>
+                                    <div class="recommendation-details">
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-shield-alt"></i>
+                                                Safe starting stake
+                                            </li>
+                                            <li>
+                                                <i class="fas fa-chart-line"></i>
+                                                Based on market analysis
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strategy Information Card -->
+                    <div class="dashboard-card card">
+                        <div class="card-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Strategy Information</h3>
+                            <div class="info-text">
+                                <p>AetherTrade AI uses a proprietary hybrid trading algorithm.</p>
+                                <p>The strategy combines multiple technical indicators for optimal performance.</p>
+                            </div>
+                        </div>
+                        <div class="card-border"></div>
+                    </div>
+
+                    <!-- Add this after the market info card -->
+                    <div class="dashboard-card card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-pie pulse"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Trading Statistics</h3>
+                            <div id="trading-stats" class="trading-stats">
+                                <!-- Stats will be dynamically updated by JS -->
+                            </div>
+                        </div>
+                        <div class="card-border"></div>
+                    </div>
+
+                    <!-- Add this card in the dashboard-grid section -->
+                    <div class="dashboard-card card suggested-stake-card">
+                        <div class="card-icon">
+                            <i class="fas fa-calculator pulse"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Suggested Stake</h3>
+                            <div class="stake-info">
+                                <div class="suggested-amount">
+                                    <span class="label">Recommended Stake:</span>
+                                    <span id="suggested-stake" class="value">Calculating...</span>
+                                </div>
+                                <div class="calculation-info">
+                                    <span class="label">Based on:</span>
+                                    <span id="balance-percentage" class="value">0.35% of balance</span>
+                                </div>
+                                <div class="stake-advice">
+                                    <div class="advice-header">
+                                        <i class="fas fa-info-circle"></i>
+                                        Trading Advice
+                                    </div>
+                                    <ul class="advice-list">
+                                        <li>Never risk more than 1% of your balance</li>
+                                        <li>Start with minimum stake to test strategies</li>
+                                        <li>Increase stake only after consistent profits</li>
+                                        <li>Always maintain proper risk management</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-border"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bot View -->
+        <div class="view-content" id="bot-view" style="display: none;">
+            <div class="dashboard-grid">
+                <!-- Control Panel Card -->
+                <div class="dashboard-card card">
+                    <div class="card-icon">
+                        <i class="fas fa-robot pulse"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Bot Control</h3>
+                        <div class="bot-controls">
+                            <div class="status-container">
+                                <div class="bot-status">
+                                    <span class="status-indicator" id="bot-status-indicator"></span>
+                                    <span class="status-text" id="bot-status-text">Bot Offline</span>
+                                </div>
+                            </div>
+                            <div class="risk-metrics">
+                                <div class="metric">
+                                    <span class="metric-label">Initial Stake ($)</span>
+                                    <input type="number" id="stake-amount" class="metric-input" value="0.35" min="0.35" step="0.01">
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Martingale</span>
+                                    <input type="number" id="martingale-multiplier" class="metric-input" value="2" min="1" step="0.1">
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Max Losses</span>
+                                    <input type="number" id="max-losses" class="metric-input" value="10" min="1">
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Take Profit ($)</span>
+                                    <input type="number" id="take-profit" class="metric-input" value="10" min="1" step="0.5">
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Stop Loss ($)</span>
+                                    <input type="number" id="stop-loss" class="metric-input" value="5" min="1" step="0.5">
+                                </div>
+                                <div class="market-selection-container" style="position: relative;">
+                                    <div class="metric">
+                                        <span class="metric-label">Market</span>
+                                        <select id="market-select" class="metric-input">
+                                            <option value="R_10">Volatility 10</option>
+                                            <option value="R_25">Volatility 25</option>
+                                            <option value="R_50" selected>Volatility 50</option>
+                                            <option value="R_75">Volatility 75</option>
+                                            <option value="R_100">Volatility 100</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Random Bot Market Overlay -->
+                                    <div id="random-market-overlay" class="random-market-overlay" style="display: none;">
+                                        <div class="overlay-content">
+                                            <i class="fas fa-random pulse"></i>
+                                            <h3>Random Bot Active Market</h3>
+                                            <div class="current-market">
+                                                <span id="random-current-market">Volatility 50</span>
+                                            </div>
+                                            <div class="trade-counter">
+                                                Trades: <span id="random-trade-count">0</span>/<span id="random-trade-limit">5</span>
+                                            </div>
+                                            <div class="market-timer">
+                                                Next switch in: <span id="random-market-timer">5:00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Bot Type</span>
+                                    <select id="bot-type" class="metric-input">
+                                        <option value="standard" selected>Standard Bot</option>
+                                        <option value="random">Random Bot</option>
+                                    </select>
+                                </div>
+                                <!-- Hidden strategy inputs -->
+                                <div style="display: none;">
+                                    <input type="number" id="short-ema" min="2" value="3">
+                                    <input type="number" id="long-ema" min="3" value="6">
+                                    <input type="number" id="bb-period" min="2" value="14">
+                                    <input type="number" id="bb-std" min="1" value="2" step="0.1">
+                                    <input type="number" id="rsi-period" min="2" value="7">
+                                </div>
+                                <!-- Market Analysis -->
+                                <div class="metric">
+                                    <span class="metric-label">Trend</span>
+                                    <span id="strategy-trend" class="metric-value">Neutral</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Signal</span>
+                                    <span id="strategy-signal" class="metric-value">0%</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Phase</span>
+                                    <span id="strategy-phase" class="metric-value">Ranging</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Volatility</span>
+                                    <span id="strategy-volatility" class="metric-value">Low</span>
+                                </div>
+                            </div>
+                            <div class="bot-actions">
+                                <button id="start-bot" class="cyber-button"><i class="fas fa-play"></i> Start</button>
+                                <button id="stop-bot" class="cyber-button danger" disabled><i class="fas fa-stop"></i> Stop</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-border"></div>
+                </div>
+
+                <!-- Bot Type Disclaimer Card -->
+                <div class="dashboard-card card">
+                    <div class="card-icon">
+                        <i class="fas fa-info-circle pulse"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Bot Types Explanation</h3>
+                        <div class="bot-types-info">
+                            <div class="bot-type-section">
+                                <h4><i class="fas fa-robot"></i> Standard Bot</h4>
+                                <ul>
+                                    <li>Trades on a single selected market</li>
+                                    <li>Uses fixed 5-tick duration</li>
+                                    <li>Consistent market analysis</li>
+                                    <li>Manual market selection</li>
+                                    <li>Recommended for beginners</li>
+                                </ul>
+                            </div>
+                            <div class="bot-type-section">
+                                <h4><i class="fas fa-random"></i> Random Bot</h4>
+                                <ul>
+                                    <li>Automatically switches between markets</li>
+                                    <li>Random tick duration (3-9 ticks)</li>
+                                    <li>Switches after 3-7 trades per market</li>
+                                    <li>5-minute timeout for inactive markets</li>
+                                    <li>For experienced traders only</li>
+                                </ul>
+                            </div>
+                            <div class="disclaimer-text">
+                                <strong>Note:</strong> Please understand your chosen bot type before trading. Random bot involves higher risk due to its dynamic nature.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-border"></div>
+                </div>
+
+                <!-- Activity Log Card -->
+                <div class="dashboard-card card">
+                    <div class="card-content">
+                        <div id="activity-log" class="activity-log">
+                            <div class="log-header">Activity Log</div>
+                            <div class="log-content"></div>
+                        </div>
+                    </div>
+                    <div class="card-border"></div>
+                </div>
+
+                <!-- Trading Statistics Card -->
+                <div class="dashboard-card card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-pie pulse"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Trading Statistics</h3>
+                        <div id="trading-stats-bot" class="trading-stats">
+                            <!-- Stats will be dynamically updated by JS -->
+                        </div>
+                    </div>
+                    <div class="card-border"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings View -->
+        <div class="view-content" id="settings-view" style="display: none;">
+            <div class="cyber-card">
+                <h2><i class="fas fa-cog"></i> Settings</h2>
+                <p>Application settings coming soon...</p>
+            </div>
+        </div>
+
+        <!-- Chat View -->
+        <div class="view-content" id="chat-view" style="display: none;">
+            <div class="chat-container">
+                <div class="dashboard-card card chat-card">
+                    <div class="card-icon">
+                        <i class="fas fa-comments pulse"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Chat with Admin</h3>
+                        <div class="chat-box">
+                            <div class="chat-messages" id="chat-messages">
+                                <!-- Messages will be added here dynamically -->
+                                <div class="message system">
+                                    <div class="message-content">
+                                        Welcome to AetherTrade Support! How can we help you today?
+                                    </div>
+                                    <div class="message-time">Now</div>
+                                </div>
+                            </div>
+                            <div class="chat-input-area">
+                                <form id="chat-form" class="cyber-form">
+                                    <div class="input-group">
+                                        <textarea 
+                                            id="chat-input" 
+                                            placeholder="Type your message..." 
+                                            rows="2"
+                                            maxlength="500"
+                                        ></textarea>
+                                        <button type="submit" class="cyber-button send-btn">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-border"></div>
+                </div>
+
+                <!-- Chat Info Card -->
+                <div class="dashboard-card card info-card">
+                    <div class="card-icon">
+                        <i class="fas fa-info-circle glow"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Chat Information</h3>
+                        <div class="chat-info">
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Response Time: Usually within 1 hour</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Available: 24/7</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-language"></i>
+                                <span>Language: English</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-border"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/user_dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/random.js') }}"></script>
+{% endblock %} 

@@ -1,0 +1,154 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Dynamic Gradient -->
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff2a6d">
+        <animate attributeName="stop-color" 
+                 values="#ff2a6d;#05d9e8;#7700ff;#ff2a6d" 
+                 dur="8s" 
+                 repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#05d9e8">
+        <animate attributeName="stop-color" 
+                 values="#05d9e8;#7700ff;#ff2a6d;#05d9e8" 
+                 dur="8s" 
+                 repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <!-- Pulse Effect -->
+    <filter id="pulse">
+      <feGaussianBlur stdDeviation="1" result="blur">
+        <animate attributeName="stdDeviation"
+                 values="1;2;1"
+                 dur="2s"
+                 repeatCount="indefinite"/>
+      </feGaussianBlur>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Glow Effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Circuit Pattern -->
+    <pattern id="circuitPattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M0,5 L10,5 M5,0 L5,10" 
+            stroke="rgba(255,255,255,0.2)" 
+            stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Background Hexagon with Pulse -->
+  <path d="M25,2 L45,13 L45,37 L25,48 L5,37 L5,13 Z" 
+        fill="url(#mainGradient)"
+        filter="url(#glow)">
+    <animate attributeName="opacity"
+             values="0.8;1;0.8"
+             dur="2s"
+             repeatCount="indefinite"/>
+  </path>
+
+  <!-- Circuit Board Background -->
+  <path d="M25,2 L45,13 L45,37 L25,48 L5,37 L5,13 Z"
+        fill="url(#circuitPattern)"
+        opacity="0.3">
+    <animateTransform attributeName="transform"
+                      type="rotate"
+                      from="0 25 25"
+                      to="360 25 25"
+                      dur="20s"
+                      repeatCount="indefinite"/>
+  </path>
+
+  <!-- Central Core -->
+  <g transform="translate(25,25)">
+    <!-- Rotating Ring -->
+    <circle r="12" 
+            fill="none" 
+            stroke="url(#mainGradient)" 
+            stroke-width="1"
+            stroke-dasharray="20 10">
+      <animateTransform attributeName="transform"
+                        type="rotate"
+                        from="0"
+                        to="360"
+                        dur="10s"
+                        repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Energy Core -->
+    <circle r="6" fill="#fff" filter="url(#pulse)">
+      <animate attributeName="r"
+               values="6;7;6"
+               dur="2s"
+               repeatCount="indefinite"/>
+      <animate attributeName="opacity"
+               values="0.8;1;0.8"
+               dur="2s"
+               repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Orbiting Particles -->
+    <g>
+      <circle r="2" cx="0" cy="-10" fill="#fff">
+        <animateTransform attributeName="transform"
+                          type="rotate"
+                          from="0"
+                          to="360"
+                          dur="3s"
+                          repeatCount="indefinite"/>
+        <animate attributeName="r"
+                 values="2;1;2"
+                 dur="2s"
+                 repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- Energy Beams -->
+    <g>
+      <line x1="-15" y1="-15" x2="15" y2="15" 
+            stroke="rgba(255,255,255,0.5)" 
+            stroke-width="0.5">
+        <animate attributeName="opacity"
+                 values="0.2;0.5;0.2"
+                 dur="3s"
+                 repeatCount="indefinite"/>
+      </line>
+      <line x1="15" y1="-15" x2="-15" y2="15" 
+            stroke="rgba(255,255,255,0.5)" 
+            stroke-width="0.5">
+        <animate attributeName="opacity"
+                 values="0.5;0.2;0.5"
+                 dur="3s"
+                 repeatCount="indefinite"/>
+      </line>
+    </g>
+  </g>
+
+  <!-- Outer Ring with Data Flow -->
+  <circle cx="25" cy="25" r="22" 
+          stroke="url(#mainGradient)" 
+          stroke-width="1"
+          fill="none"
+          stroke-dasharray="20 10"
+          filter="url(#glow)">
+    <animateTransform attributeName="transform"
+                      type="rotate"
+                      from="0 25 25"
+                      to="-360 25 25"
+                      dur="15s"
+                      repeatCount="indefinite"/>
+    <animate attributeName="stroke-dashoffset"
+             from="0"
+             to="30"
+             dur="2s"
+             repeatCount="indefinite"/>
+  </circle>
+</svg>
